@@ -13,8 +13,6 @@ from django.db import models
 
 # Фото обложки
 # Цена (BYN)
-# Серия - справочник
-# Жанры (один или несколько жанров) - справочник
 # Год издания
 # Страниц
 # Переплет
@@ -22,7 +20,6 @@ from django.db import models
 # ISBN
 # Вес (гр)
 # Возрастные ограничения
-# Издательство - справочник
 # Количество книг в наличии
 # Активный (доступен для заказа, Да/Нет)
 # Рейтинг (0 - 10)
@@ -44,22 +41,6 @@ from django.db import models
 # Адрес2
 # Дополнительная информация
 
-
-class Author(models.Model):  # Авторы книги (может содержать несколько авторов) - справочник
-    name = models.CharField(
-        'Автор книги',
-        max_length=50
-    )
-    description = models.TextField(
-        'Автор книги из справочника',
-        blank=True,
-        null=True
-    )
-
-    def __str__(self):
-        return self.name
-
-
 class Book(models.Model):  # Название книги
     name = models.CharField(
         "Название Книги",
@@ -67,14 +48,27 @@ class Book(models.Model):  # Название книги
         blank=False,  #Обязательно к заполнению, пустым не может быть
         null=False  
     )
-    author = models.ForeignKey(
-        Author,
-        verbose_name='Автор/Авторы книги',
-        on_delete=models.PROTECT    
+    author = models.ManyToManyField(
+        'handbook.Author',
+        verbose_name='Автор/Авторы книги'    
+    )
+    seria = models.ForeignKey(
+        'handbook.BookSeria',
+        verbose_name='Серия книги',
+        on_delete=models.PROTECT
+    )
+    genre = models.ManyToManyField(
+        'handbook.BookGenre',
+        verbose_name='Жанр/Жанры книги'
+    )
+    publishing = models.ForeignKey(
+        'handbook.PublishingHouse',
+        verbose_name='Издательство',
+        on_delete=models.PROTECT
     )
 
     def __str__(self):
-        return f'{self.name} {self.author.name}'
+        return f'{self.name} {self.author.name} {self.seria.name} {self.genre.name} {self.publishing.name}'
 
 
 class Customer(models.Model):  #Профиль покупателя
