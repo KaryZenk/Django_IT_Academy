@@ -77,7 +77,7 @@ class Book(models.Model):  # Название книги
         return f'{self.name} {self.author.name}'
 
 
-class Byer(models.Model):  #Профиль покупателя
+class Customer(models.Model):  #Профиль покупателя
     login = models.CharField(  # Логин
         "Логин",
         max_length=20,
