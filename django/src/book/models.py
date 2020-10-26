@@ -28,34 +28,64 @@ from django.db import models
 # Рейтинг (0 - 10)
 # Дата внесения в каталог
 # Дата последнего изменения карточки
-class BookAuthor(models.Model):  # Авторы книги (может содержать несколько авторов) - справочник
-    book_author = models.CharField(
-        'Авторы книги',
+
+
+# Пароль
+# E-mail
+# Имя
+# Фамилия
+# Телефон
+# Группа - недоступно для редактирования. Принадлежность присваивается автоматически
+# Домашний адрес
+# Страна
+# Город
+# Индекс
+# Адрес1
+# Адрес2
+# Дополнительная информация
+
+
+class Author(models.Model):  # Авторы книги (может содержать несколько авторов) - справочник
+    name = models.CharField(
+        'Автор книги',
         max_length=50
     )
     description = models.TextField(
-        'Авторы книги из справочника',
+        'Автор книги из справочника',
         blank=True,
         null=True
     )
 
     def __str__(self):
-        return self.book_author
+        return self.name
+
 
 class Book(models.Model):  # Название книги
-    book_name = models.CharField(
+    name = models.CharField(
         "Название Книги",
         max_length=100,
         blank=False,  #Обязательно к заполнению, пустым не может быть
         null=False  
     )
-    book_author = models.ForeignKey(
-        BookAuthor,
+    author = models.ForeignKey(
+        Author,
+        verbose_name='Автор/Авторы книги',
         on_delete=models.PROTECT    
     )
 
-    #user 
+    def __str__(self):
+        return f'{self.name} {self.author.name}'
+
+
+class Byer(models.Model):  #Профиль покупателя
+    login = models.CharField(  # Логин
+        "Логин",
+        max_length=20,
+    )
+    books = models.ManyToManyField(
+        Book,
+        verbose_name='Книги'
+    )
 
     def __str__(self):
-        return f'{self.book_name} {self.book_author.book_author}'
-
+        return self.login

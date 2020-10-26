@@ -6,4 +6,4 @@ from . import models
 
 
 admin.site.register(models.Book)
-admin.site.register(models.BookAuthor)
+admin.site.register(models.Author)
