@@ -30,7 +30,7 @@ class Book(models.Model):
         blank=True,
         null=True
     )
-    author = models.ManyToManyField(
+    authors = models.ManyToManyField(
         'handbook.Author',
         verbose_name='Автор/Авторы книги'    
     )
@@ -49,7 +49,7 @@ class Book(models.Model):
         verbose_name='Серия книги',
         on_delete=models.PROTECT
     )
-    genre = models.ManyToManyField(
+    genres = models.ManyToManyField(
         'handbook.BookGenre',
         verbose_name='Жанр/Жанры книги'
     )
@@ -118,8 +118,8 @@ class Book(models.Model):
     )
 
     def __str__(self):
-        return (f'{self.name} {self.photo.name} {self.price} {self.author.name} '
-                f'{self.year} {self.seria.name} {self.genre.name} {self.publishing.name} {self.cover}'
+        return (f'{self.name} {self.photo.name} {self.price} {self.authors}</br>'
+                f'{self.year} {self.seria.name} {self.genres} {self.publishing.name} {self.cover}'
                 f'{self.size} {self.isbn} {self.weight} {self.restrictions} {self.book_amount} {self.created_at}'
                 f'{self.modified_at} {self.available} {self.rating}')
 
