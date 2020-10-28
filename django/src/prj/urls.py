@@ -17,11 +17,14 @@ from django.contrib import admin
 from django.urls import path
 from hello_world.views import hello_world
 from book.views import book, generate_books
-
+from handbook.views import show_references_view, show_genre_by_pk_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('hello_world/', hello_world),
     path('book/', book),
-    path('generate/', generate_books)
+    path('generate/', generate_books),
+    path('', show_references_view),
+    path('genre/<int:genre_id>/', show_genre_by_pk_view),
+    # path('<str:title>/<int:ref_pk>/', show_reference_by_pk_view),
 ]

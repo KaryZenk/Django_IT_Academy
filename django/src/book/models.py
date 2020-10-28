@@ -124,8 +124,8 @@ class Book(models.Model):
                 f'{self.modified_at} {self.available} {self.rating}')
 
 
-class Customer(models.Model):  #Профиль покупателя
-    login = models.CharField(  # Логин
+class Customer(models.Model):
+    login = models.CharField(
         "Логин",
         max_length=20,
     )
