@@ -6,6 +6,11 @@
     <title>Document</title>
 </head>
 <body>
-    <h1>This is {{genre.name}}</h1>
+    <h1>Create genre</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+        {{form}}
+        <button>Submit</button>
+    </form>
 </body>
 </html>
