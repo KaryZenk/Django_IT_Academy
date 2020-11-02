@@ -30,6 +30,11 @@ class Book(models.Model):
         blank=True,
         null=True
     )
+
+    @property
+    def author_names(self) -> str:
+        return ', '.join(str(author) for author in self.authors.all())
+
     authors = models.ManyToManyField(
         'handbook.Author',
         verbose_name='Автор/Авторы книги'    
@@ -49,6 +54,11 @@ class Book(models.Model):
         verbose_name='Серия книги',
         on_delete=models.PROTECT
     )
+
+    @property
+    def genre_names(self) -> str:
+        return ', '.join(str(genre) for genre in self.genres.all())
+
     genres = models.ManyToManyField(
         'handbook.BookGenre',
         verbose_name='Жанр/Жанры книги'
@@ -117,8 +127,28 @@ class Book(models.Model):
         default=0
     )
 
+    @property
+    def render(self) -> str:
+        return (f'Название: {self.name}<br>'
+f'Цена: {self.price}<br>'
+f'Авторы: {self.author_names}</br>'
+f'Год {self.year}<br>'
+f'Серия: {self.seria.name}<br>'
+f'Жанры: {self.genre_names}<br>'
+f'{self.publishing.name}<br>'
+f'{self.cover}<br>'
+f'{self.size}<br>'
+f'{self.isbn}<br>'
+f'{self.weight}<br>'
+f'{self.restrictions}<br>'
+f'{self.book_amount}<br>'
+f'{self.created_at}<br>'
+f'{self.modified_at}<br>'
+f'{self.available}<br>'
+f'{self.rating}')
+
     def __str__(self):
-        return (f'{self.name} {self.photo.name} {self.price} {self.authors}</br>'
+        return (f'({self.pk}) {self.name} {self.photo.name} {self.price} {self.authors}</br>'
                 f'{self.year} {self.seria.name} {self.genres} {self.publishing.name} {self.cover}'
                 f'{self.size} {self.isbn} {self.weight} {self.restrictions} {self.book_amount} {self.created_at}'
                 f'{self.modified_at} {self.available} {self.rating}')

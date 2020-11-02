@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>This is {{book.name}}</h1>
+    Автор/Авторы: {{ book.author_names }}<br>
+    Цена: {{book.price}}<br>
+    Год издания: {{book.year}}<br>
+    Серия: {{book.seria}}<br>
+    Жанр: {{ book.genre_names }}<br>
+    Издательство: {{book.publishing}}<br>
+    Кол-во страниц: {{book.pages}}<br>
+    Переплет: {{book.cover}}<br>
+    Формат: {{book.size}}<br>
+    ISBN: {{book.isbn}}<br>
+    Вес: {{book.weight}}<br>
+    Возрастные ограничения: {{ book.restrictions }}<br>
+    Рейтинг: {{book.rating}}<br>
+    Кол-во книг: {{book.book_amount}}<br>
+    Наличие: {{book.available}}<br>
+    Создана карточка {{book.created_at|date:"D d.m.y."}} ({{book.created_at|timesince}})<br>
+    Модифицирована карточка {{book.modified_at}}<br>
+</body>
+</html>

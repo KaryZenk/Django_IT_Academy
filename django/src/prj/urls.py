@@ -16,17 +16,18 @@ Including another URLconf
 
 from django.contrib import admin
 from django.urls import path
+
+
 from hello_world.views import hello_world
 from book.views import book, generate_books
 
 from handbook.views import show_genres_view, show_genre_by_pk_view, show_authors_view, show_author_by_pk_view, show_publishers_view
-from handbook.views import show_publisher_by_pk_view, show_series_view, show_seria_by_pk_view
+from handbook.views import show_publisher_by_pk_view, show_series_view, show_seria_by_pk_view, show_books_view, show_book_by_pk_view
 from handbook import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('hello_world/', hello_world),
-    path('book/', book),
     path('generate/', generate_books),
     path('genre/<int:genre_id>/', show_genre_by_pk_view),
     path('genre/create/', views.create_genre_view),
@@ -48,4 +49,9 @@ urlpatterns = [
     path('seria/create/', views.create_seria_view),
     path('seria/update/<int:pk>/', views.update_seria_view),
     path('seria/delete/<int:pk>/', views.delete_seria_view),
+    path('book/', show_books_view),
+    path('book/<int:book_id>/', show_book_by_pk_view),
+    path('book/create/', views.create_book_view),
+    path('book/update/<int:pk>/', views.update_book_view),
+    path('book/delete/<int:pk>/', views.delete_book_view),
 ]

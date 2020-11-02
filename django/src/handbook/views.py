@@ -3,7 +3,9 @@ from django.http import HttpResponse, HttpResponseRedirect
 from .models import Author, BookGenre, BookSeria, PublishingHouse
 
 from .forms import CreateGenreForm, UpdateGenreForm, CreateAuthorForm, UpdateAuthorForm, CreatePublisherForm, UpdatePublisherForm
-from .forms import CreateSeriaForm, UpdateSeriaForm
+from .forms import CreateSeriaForm, UpdateSeriaForm, CreateBookForm, UpdateBookForm
+
+from book.models import Book, AgeRestictions, TypeCover
 
 # Wrong, but it is still working
 
@@ -225,3 +227,54 @@ def delete_seria_view(request, pk):
         request,
         template_name='handbook/delete_seria.html', 
         context={'seria': seria})
+
+
+def show_books_view(request):
+    books = Book.objects.all() 
+    con = {'book_keys': books}
+    return render(request, template_name='handbook/book_list.html', context=con)
+
+def show_book_by_pk_view(request, book_id):
+    # /book/1,2,3
+    book_obj = Book.objects.get(pk=book_id)
+    con = {'book': book_obj}
+    return render(request, template_name='handbook/book.html', context=con)
+
+def create_book_view(request):
+    if request.method == 'POST':
+        form = CreateBookForm(data=request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/book/')
+    else:
+        form = CreateBookForm()
+    return render(
+        request,
+        template_name='handbook/create_book.html', 
+        context={'form': form})
+
+def update_book_view(request, pk):
+    book = Book.objects.get(pk=pk)
+    if request.method == 'POST':
+        form = UpdateBookForm(data=request.POST, instance=book)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            obj.save()
+            return HttpResponseRedirect('/book/')
+    else:
+        form = UpdateBookForm(instance=book)
+    return render(
+        request,
+        template_name='handbook/update_book.html', 
+        context={'form': form})
+
+def delete_book_view(request, pk):
+    if request.method == 'POST':
+        book = Book.objects.filter(pk=pk).delete()
+        return HttpResponseRedirect('/book/')
+    else:
+        book= Book.objects.get(pk=pk)
+    return render(
+        request,
+        template_name='handbook/delete_book.html', 
+        context={'book': book})

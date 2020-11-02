@@ -1,6 +1,6 @@
 from django.db import models
 
-class Author(models.Model):  # Авторы книги (может содержать несколько авторов)
+class Author(models.Model):  # Авторы книги (может содержать несколько авторов.
     name = models.CharField(
         'Автор книги',
         max_length=50
