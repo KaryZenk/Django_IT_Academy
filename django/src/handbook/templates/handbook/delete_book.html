@@ -9,9 +9,24 @@
     <h1>Delete Book?</h1>
      <form action="" method="post">
         {% csrf_token %}
-        {% autoescape off %}
-        {{ book.render }}<br>
-        {% endautoescape %}
+        <h2> {{book.name}} </h2>
+    Автор/Авторы: {{ book.author_names }}<br>
+    Цена: {{book.price}}<br>
+    Год издания: {{book.year}}<br>
+    Серия: {{book.seria}}<br>
+    Жанр: {{ book.genre_names }}<br>
+    Издательство: {{book.publishing}}<br>
+    Кол-во страниц: {{book.pages}}<br>
+    Переплет: {{book.cover}}<br>
+    Формат: {{book.size}}<br>
+    ISBN: {{book.isbn}}<br>
+    Вес: {{book.weight}}<br>
+    Возрастные ограничения: {{ book.restrictions }}<br>
+    Рейтинг: {{book.rating}}<br>
+    Кол-во книг: {{book.book_amount}}<br>
+    Наличие: {{book.available}}<br>
+    Создана карточка {{book.created_at|date:"D d.m.y."}} ({{book.created_at|timesince}})<br>
+    Модифицирована карточка {{book.modified_at}}<br>
         <button type="submit">Submit</button>
     </form>
 </body>

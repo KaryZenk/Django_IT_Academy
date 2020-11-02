@@ -131,25 +131,25 @@ class Book(models.Model):
     def render(self) -> str:
         return (f'Название: {self.name}<br>'
 f'Цена: {self.price}<br>'
-f'Авторы: {self.author_names}</br>'
-f'Год {self.year}<br>'
+f'Автор: {self.author_names}</br>'
+f'Год: {self.year}<br>'
 f'Серия: {self.seria.name}<br>'
-f'Жанры: {self.genre_names}<br>'
-f'{self.publishing.name}<br>'
-f'{self.cover}<br>'
-f'{self.size}<br>'
-f'{self.isbn}<br>'
-f'{self.weight}<br>'
-f'{self.restrictions}<br>'
-f'{self.book_amount}<br>'
+f'Жанры: {self.genre.names}<br>'
+f'Издательство: {self.publishing.name}<br>'
+f'Переплёт: {self.cover}<br>'
+f'Формат: {self.size}<br>'
+f'ISBN: {self.isbn}<br>'
+f'Вес: {self.weight}<br>'
+f'Возрастные ограничение: {self.restrictions}<br>'
+f'Кол-во книг в наличии: {self.book_amount}<br>'
 f'{self.created_at}<br>'
 f'{self.modified_at}<br>'
-f'{self.available}<br>'
-f'{self.rating}')
+f'Наличие: {self.available}<br>'
+f'Рейтинг: {self.rating}')
 
     def __str__(self):
-        return (f'({self.pk}) {self.name} {self.photo.name} {self.price} {self.authors}</br>'
-                f'{self.year} {self.seria.name} {self.genres} {self.publishing.name} {self.cover}'
+        return (f'({self.pk}) {self.name} {self.photo.name} {self.price} {self.author_names}'
+                f'{self.year} {self.seria.name} {self.genre_names} {self.publishing.name} {self.cover}'
                 f'{self.size} {self.isbn} {self.weight} {self.restrictions} {self.book_amount} {self.created_at}'
                 f'{self.modified_at} {self.available} {self.rating}')
 
