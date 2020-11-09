@@ -8,8 +8,14 @@
 <body>
     <h1>Welcome to our bookshop!!!</h1>
     <h1>Выберите автора</h1>
-    {% for author in author_keys %}
-    <a href="/author/{{author.pk}}">{{author.name}}</a>><br>
+    {% for author in object_list %}
+    <span>{{author.name}}: </span>
+    <a href="/author/updateview/{{author.pk}}"><button>update</button></a>
+    <a href="/author/deleteview/{{author.pk}}"><button>delete</button></a>
+    <a href="/author/{{author.pk}}"><button>view</button></a>
+    <br>
     {% endfor %}
+    <br>
+    <a href="/author/createview/"><button>create</button></a>
 </body>
 </html>

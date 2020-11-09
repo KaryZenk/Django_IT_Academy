@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
+from django.views.generic import TemplateView, ListView, CreateView, UpdateView, DeleteView, DetailView
 from .models import Author, BookGenre, BookSeria, PublishingHouse
 
 from .forms import CreateGenreForm, UpdateGenreForm, CreateAuthorForm, UpdateAuthorForm, CreatePublisherForm, UpdatePublisherForm
@@ -7,274 +8,132 @@ from .forms import CreateSeriaForm, UpdateSeriaForm, CreateBookForm, UpdateBookF
 
 from book.models import Book, AgeRestictions, TypeCover
 
-# Wrong, but it is still working
 
-def show_genres_view(request):
-    """Return a list of References obj"""
-    genres = BookGenre.objects.all() 
-    con = {'genre_keys': genres}
-    return render(request, template_name='handbook/genre_list.html', context=con)
+class ShowBooksView(ListView):
+    template_name='handbook/book_list.html'
+    model = Book
 
-def show_genre_by_pk_view(request, genre_id):
-    # /genre/1,2,3
-    genre_obj = BookGenre.objects.get(pk=genre_id)
-    con = {'genre': genre_obj}
-    return render(request, template_name='handbook/genre.html', context=con)
+class ShowBookView(DetailView):
+    template_name = 'handbook/book.html'
+    model = Book
 
-def create_genre_view(request):
-    if request.method == 'POST':
-        form = CreateGenreForm(data=request.POST)
-        if form.is_valid():
-            genre_name = form.cleaned_data.get('name')
-            BookGenre.objects.create(name=genre_name)
-            return HttpResponseRedirect('/genre/')
-    else:
-        form = CreateGenreForm()
-    return render(
-        request,
-        template_name='handbook/create_genre.html', 
-        context={'form': form})
+class CreateBookView(CreateView):
+    template_name = 'handbook/create_book.html'
+    model = Book
+    form_class = CreateBookForm
+    success_url='/'
+
+class UpdateBookView(UpdateView):
+    template_name = 'handbook/update_book.html'
+    model = Book
+    form_class = UpdateBookForm
+    success_url='/'
+
+class DeleteBookView(DeleteView):
+    template_name = 'handbook/delete_book.html'
+    model = Book
+    success_url='/'
+
+
+class ShowGenresView(ListView):
+    template_name='handbook/genre_list.html'
+    model = BookGenre
+
+class ShowGenreView(DetailView):
+    template_name = 'handbook/genre.html'
+    model = BookGenre
+
+class CreateGenreView(CreateView):
+    template_name = 'handbook/create_genre.html'
+    model = BookGenre
+    form_class = CreateGenreForm
+    success_url='/genre/'
    
-def update_genre_view(request, pk):
-    if request.method == 'POST':
-        form = UpdateGenreForm(data=request.POST)
-        if form.is_valid():
-            genre_name = form.cleaned_data.get('name')
-            form_pk = form.cleaned_data.get('pk')
-            obj = BookGenre.objects.get(pk=form_pk)
-            obj.name = genre_name
-            obj.save()
-            return HttpResponseRedirect('/genre/')
-    else:
-        genre = BookGenre.objects.get(pk=pk)
-        form = UpdateGenreForm(data={'name': genre.name, 'pk': genre.pk})
-    return render(
-        request,
-        template_name='handbook/create_genre.html', 
-        context={'form': form})
+class UpdateGenreView(UpdateView):
+    template_name = 'handbook/create_genre.html'
+    model = BookGenre
+    form_class = UpdateGenreForm
+    success_url='/genre/'
    
-def delete_genre_view(request, pk):
-    if request.method == 'POST':
-        genre = BookGenre.objects.filter(pk=pk).delete()
-        return HttpResponseRedirect('/genre/')
-    else:
-        genre = BookGenre.objects.get(pk=pk)
-    return render(
-        request,
-        template_name='handbook/delete_genre.html', 
-        context={'genre': genre})
+class DeleteGenreView(DeleteView):
+    template_name = 'handbook/delete_genre.html'
+    model = BookGenre
+    success_url='/genre/'
 
 
-def show_authors_view(request):
-    authors = Author.objects.all() 
-    con = {'author_keys': authors}
-    return render(request, template_name='handbook/author_list.html', context=con)
+class ShowAuthorsView(ListView):
+    template_name='handbook/author_list.html'
+    model = Author
 
-def show_author_by_pk_view(request, author_id):
-    author_obj = Author.objects.get(pk=author_id)
-    con = {'author': author_obj}
-    return render(request, template_name='handbook/author.html', context=con)
+class ShowAuthorView(DetailView):
+    template_name = 'handbook/author.html'
+    model = Author
 
-def create_author_view(request):
-    if request.method == 'POST':
-        form = CreateAuthorForm(data=request.POST)
-        if form.is_valid():
-            author_name = form.cleaned_data.get('name')
-            Author.objects.create(name=author_name)
-            return HttpResponseRedirect('/author/')
-    else:
-        form = CreateAuthorForm()
-    return render(
-        request,
-        template_name='handbook/create_author.html', 
-        context={'form': form})
+class CreateAuthorView(CreateView):
+    template_name = 'handbook/create_author.html'
+    model = Author
+    form_class = CreateAuthorForm
+    success_url='/author/'
 
-def update_author_view(request, pk):
-    if request.method == 'POST':
-        form = UpdateAuthorForm(data=request.POST)
-        if form.is_valid():
-            author_name = form.cleaned_data.get('name')
-            form_pk = form.cleaned_data.get('pk')
-            obj = Author.objects.get(pk=form_pk)
-            obj.name = author_name
-            obj.save()
-            return HttpResponseRedirect('/author/')
-    else:
-        author = Author.objects.get(pk=pk)
-        form = UpdateAuthorForm(data={'name': author.name, 'pk': author.pk})
-    return render(
-        request,
-        template_name='handbook/create_author.html', 
-        context={'form': form})
+class UpdateAuthorView(UpdateView):
+    template_name = 'handbook/create_author.html'
+    model = Author
+    form_class = UpdateAuthorForm
+    success_url='/author/'
 
-def delete_author_view(request, pk):
-    if request.method == 'POST':
-        author = Author.objects.filter(pk=pk).delete()
-        return HttpResponseRedirect('/author/')
-    else:
-        author = Author.objects.get(pk=pk)
-    return render(
-        request,
-        template_name='handbook/delete_author.html', 
-        context={'author': author})
+class DeleteAuthorView(DeleteView):
+    template_name = 'handbook/delete_author.html'
+    model = Author
+    success_url='/author/'
 
 
-def show_publishers_view(request):
-    publishers = PublishingHouse.objects.all() 
-    con = {'publisher_keys': publishers}
-    return render(request, template_name='handbook/publisher_list.html', context=con)
+class ShowPublishersView(ListView):
+    template_name='handbook/publisher_list.html'
+    model = PublishingHouse
 
-def show_publisher_by_pk_view(request, publisher_id):
-    # /publisher/1,2,3
-    publisher_obj = PublishingHouse.objects.get(pk=publisher_id)
-    con = {'publisher': publisher_obj}
-    return render(request, template_name='handbook/publisher.html', context=con)
+class ShowPublisherView(DetailView):
+    template_name = 'handbook/publisher.html'
+    model = PublishingHouse
 
-def create_publisher_view(request):
-    if request.method == 'POST':
-        form = CreatePublisherForm(data=request.POST)
-        if form.is_valid():
-            publisher_name = form.cleaned_data.get('name')
-            PublishingHouse.objects.create(name=publisher_name)
-            return HttpResponseRedirect('/publisher/')
-    else:
-        form = CreatePublisherForm()
-    return render(
-        request,
-        template_name='handbook/create_publisher.html', 
-        context={'form': form})
+class CreatePublisherView(CreateView):
+    template_name = 'handbook/create_publisher.html'
+    model = PublishingHouse
+    form_class = CreatePublisherForm
+    success_url='/publisher/'
 
-def update_publisher_view(request, pk):
-    if request.method == 'POST':
-        form = UpdatePublisherForm(data=request.POST)
-        if form.is_valid():
-            publisher_name = form.cleaned_data.get('name')
-            form_pk = form.cleaned_data.get('pk')
-            obj = PublishingHouse.objects.get(pk=form_pk)
-            obj.name = publisher_name
-            obj.save()
-            return HttpResponseRedirect('/publisher/')
-    else:
-        publisher = PublishingHouse.objects.get(pk=pk)
-        form = UpdatePublisherForm(data={'name': publisher.name, 'pk': publisher.pk})
-    return render(
-        request,
-        template_name='handbook/create_publisher.html', 
-        context={'form': form})
+class UpdatePublisherView(UpdateView):
+    template_name = 'handbook/create_publisher.html'
+    model = PublishingHouse
+    form_class = UpdatePublisherForm
+    success_url='/publisher/'
 
-def delete_publisher_view(request, pk):
-    if request.method == 'POST':
-        publisher = PublishingHouse.objects.filter(pk=pk).delete()
-        return HttpResponseRedirect('/publisher/')
-    else:
-        publisher = PublishingHouse.objects.get(pk=pk)
-    return render(
-        request,
-        template_name='handbook/delete_publisher.html', 
-        context={'publisher': publisher})
+class DeletePublisherView(DeleteView):
+    template_name = 'handbook/delete_publisher.html'
+    model = PublishingHouse
+    success_url='/publisher/'
 
 
-def show_series_view(request):
-    series = BookSeria.objects.all() 
-    con = {'seria_keys': series}
-    return render(request, template_name='handbook/seria_list.html', context=con)
+class ShowSeriasView(ListView):
+    template_name='handbook/seria_list.html'
+    model = BookSeria
 
-def show_seria_by_pk_view(request, seria_id):
-    # /seria/1,2,3
-    seria_obj = BookSeria.objects.get(pk=seria_id)
-    con = {'seria': seria_obj}
-    return render(request, template_name='handbook/seria.html', context=con)
+class ShowSeriaView(DetailView):
+    template_name = 'handbook/seria.html'
+    model = BookSeria
 
-def create_seria_view(request):
-    if request.method == 'POST':
-        form = CreateSeriaForm(data=request.POST)
-        if form.is_valid():
-            seria_name = form.cleaned_data.get('name')
-            BookSeria.objects.create(name=seria_name)
-            return HttpResponseRedirect('/seria/')
-    else:
-        form = CreateSeriaForm()
-    return render(
-        request,
-        template_name='handbook/create_seria.html', 
-        context={'form': form})
+class CreateSeriaView(CreateView):
+    template_name = 'handbook/create_seria.html'
+    model = BookSeria
+    form_class = CreateSeriaForm
+    success_url='/seria/'
 
-def update_seria_view(request, pk):
-    if request.method == 'POST':
-        form = UpdateSeriaForm(data=request.POST)
-        if form.is_valid():
-            seria_name = form.cleaned_data.get('name')
-            form_pk = form.cleaned_data.get('pk')
-            obj = BookSeria.objects.get(pk=form_pk)
-            obj.name = seria_name
-            obj.save()
-            return HttpResponseRedirect('/seria/')
-    else:
-        seria = BookSeria.objects.get(pk=pk)
-        form = UpdateSeriaForm(data={'name': seria.name, 'pk':seria.pk})
-    return render(
-        request,
-        template_name='handbook/create_seria.html', 
-        context={'form': form})
+class UpdateSeriaView(UpdateView):
+    template_name = 'handbook/create_seria.html'
+    model = BookSeria
+    form_class = UpdateSeriaForm
+    success_url='/seria/'
 
-def delete_seria_view(request, pk):
-    if request.method == 'POST':
-        seria = BookSeria.objects.filter(pk=pk).delete()
-        return HttpResponseRedirect('/seria/')
-    else:
-        seria = BookSeria.objects.get(pk=pk)
-    return render(
-        request,
-        template_name='handbook/delete_seria.html', 
-        context={'seria': seria})
-
-
-def show_books_view(request):
-    books = Book.objects.all() 
-    con = {'book_keys': books}
-    return render(request, template_name='handbook/book_list.html', context=con)
-
-def show_book_by_pk_view(request, book_id):
-    # /book/1,2,3
-    book_obj = Book.objects.get(pk=book_id)
-    con = {'book': book_obj}
-    return render(request, template_name='handbook/book.html', context=con)
-
-def create_book_view(request):
-    if request.method == 'POST':
-        form = CreateBookForm(data=request.POST)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect('/book/')
-    else:
-        form = CreateBookForm()
-    return render(
-        request,
-        template_name='handbook/create_book.html', 
-        context={'form': form})
-
-def update_book_view(request, pk):
-    book = Book.objects.get(pk=pk)
-    if request.method == 'POST':
-        form = UpdateBookForm(data=request.POST, instance=book)
-        if form.is_valid():
-            obj = form.save(commit=False)
-            obj.save()
-            return HttpResponseRedirect('/book/')
-    else:
-        form = UpdateBookForm(instance=book)
-    return render(
-        request,
-        template_name='handbook/update_book.html', 
-        context={'form': form})
-
-def delete_book_view(request, pk):
-    if request.method == 'POST':
-        book = Book.objects.filter(pk=pk).delete()
-        return HttpResponseRedirect('/book/')
-    else:
-        book= Book.objects.get(pk=pk)
-    return render(
-        request,
-        template_name='handbook/delete_book.html', 
-        context={'book': book})
+class DeleteSeriaView(DeleteView):
+    template_name = 'handbook/delete_seria.html'
+    model = BookSeria
+    success_url='/seria/'

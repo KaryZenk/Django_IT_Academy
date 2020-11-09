@@ -8,8 +8,14 @@
 <body>
     <h1>Welcome to our bookshop!!!</h1>
     <h1>Выберите серию</h1>
-    {% for seria in seria_keys %}
-    <a href="/seria/{{seria.pk}}">{{seria.name}}</a>><br>
+    {% for seria in object_list %}
+    <span>{{seria.name}}: </span>
+    <a href="/seria/updateview/{{seria.pk}}"><button>update</button></a>
+    <a href="/seria/deleteview/{{seria.pk}}"><button>delete</button></a>
+    <a href="/seria/{{seria.pk}}"><button>view</button></a>
+    <br>
     {% endfor %}
+    <br>
+    <a href="/seria/createview/"><button>create</button></a>
 </body>
 </html>

@@ -8,8 +8,14 @@
 <body>
     <h1>Welcome to our bookshop!!!</h1>
     <h1>Выберите Издательство</h1>
-    {% for publisher in publisher_keys %}
-    <a href="/publisher/{{publisher.pk}}">{{publisher.name}}</a>><br>
+    {% for publisher in object_list %}
+    <span>{{publisher.name}}: </span>
+    <a href="/publisher/updateview/{{publisher.pk}}"><button>update</button></a>
+    <a href="/publisher/deleteview/{{publisher.pk}}"><button>delete</button></a>
+    <a href="/publisher/{{publisher.pk}}"><button>view</button></a>
+    <br>
     {% endfor %}
+    <br>
+    <a href="/publisher/createview/"><button>create</button></a>
 </body>
 </html>

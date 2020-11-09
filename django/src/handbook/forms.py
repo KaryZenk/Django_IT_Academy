@@ -3,46 +3,57 @@ from django import forms
 from . import models
 from book import models as book_models
 
-class CreateGenreForm(forms.Form):
-    name = forms.CharField(max_length=40, required=True)
 
-class UpdateGenreForm(forms.Form):
-    name = forms.CharField(max_length=40, required=True)
-    pk = forms.CharField(widget=forms.HiddenInput)
+class CreateGenreForm(forms.ModelForm):
+    class Meta:
+        model = models.BookGenre
+        fields = '__all__'
 
-
-class CreateAuthorForm(forms.Form):
-    name = forms.CharField(max_length=50, required=True)
-
-class UpdateAuthorForm(forms.Form):
-    name = forms.CharField(max_length=50, required=True)
-    pk = forms.CharField(widget=forms.HiddenInput)
+class UpdateGenreForm(forms.ModelForm):
+    class Meta:
+        model = models.BookGenre
+        fields = '__all__'
 
 
-class CreatePublisherForm(forms.Form):
-    name = forms.CharField(max_length=40, required=True)
+class CreateAuthorForm(forms.ModelForm):
+    class Meta:
+        model = models.Author
+        fields = '__all__'
 
-class UpdatePublisherForm(forms.Form):
-    name = forms.CharField(max_length=40, required=True)
-    pk = forms.CharField(widget=forms.HiddenInput)
+class UpdateAuthorForm(forms.ModelForm):
+    class Meta:
+        model = models.Author
+        fields = '__all__'
 
 
-class CreateSeriaForm(forms.Form):
-    name = forms.CharField(max_length=40, required=True)
+class CreatePublisherForm(forms.ModelForm):
+    class Meta:
+        model = models.PublishingHouse
+        fields = '__all__'
 
-class UpdateSeriaForm(forms.Form):
-    name = forms.CharField(max_length=40, required=True)
-    pk = forms.CharField(widget=forms.HiddenInput)
+class UpdatePublisherForm(forms.ModelForm):
+    class Meta:
+        model = models.PublishingHouse
+        fields = '__all__'
+
+
+class CreateSeriaForm(forms.ModelForm):
+    class Meta:
+        model = models.BookSeria
+        fields = '__all__'
+
+class UpdateSeriaForm(forms.ModelForm):
+    class Meta:
+        model = models.BookSeria
+        fields = '__all__'
 
 
 class CreateBookForm(forms.ModelForm):
-    # authors = forms.CharField()
     class Meta:
         model = book_models.Book
         fields = '__all__'
 
 class UpdateBookForm(forms.ModelForm):
-    # authors = forms.CharField()
     class Meta:
         model = book_models.Book
         fields = '__all__'

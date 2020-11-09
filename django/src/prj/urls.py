@@ -19,39 +19,42 @@ from django.urls import path
 
 
 from hello_world.views import hello_world
-from book.views import book, generate_books
-
-from handbook.views import show_genres_view, show_genre_by_pk_view, show_authors_view, show_author_by_pk_view, show_publishers_view
-from handbook.views import show_publisher_by_pk_view, show_series_view, show_seria_by_pk_view, show_books_view, show_book_by_pk_view
+from book.views import book, generate_books 
 from handbook import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('hello_world/', hello_world),
     path('generate/', generate_books),
-    path('genre/<int:genre_id>/', show_genre_by_pk_view),
-    path('genre/create/', views.create_genre_view),
-    path('genre/update/<int:pk>/', views.update_genre_view),
-    path('genre/delete/<int:pk>/', views.delete_genre_view),
-    path('genre/', show_genres_view),
-    path('author/', show_authors_view),
-    path('author/<int:author_id>/', show_author_by_pk_view),
-    path('author/create/', views.create_author_view),
-    path('author/update/<int:pk>/', views.update_author_view),
-    path('author/delete/<int:pk>/', views.delete_author_view),
-    path('publisher/', show_publishers_view),
-    path('publisher/<int:publisher_id>/', show_publisher_by_pk_view),
-    path('publisher/create/', views.create_publisher_view),
-    path('publisher/update/<int:pk>/', views.update_publisher_view),
-    path('publisher/delete/<int:pk>/', views.delete_publisher_view),
-    path('seria/', show_series_view),
-    path('seria/<int:seria_id>/', show_seria_by_pk_view),
-    path('seria/create/', views.create_seria_view),
-    path('seria/update/<int:pk>/', views.update_seria_view),
-    path('seria/delete/<int:pk>/', views.delete_seria_view),
-    path('book/', show_books_view),
-    path('book/<int:book_id>/', show_book_by_pk_view),
-    path('book/create/', views.create_book_view),
-    path('book/update/<int:pk>/', views.update_book_view),
-    path('book/delete/<int:pk>/', views.delete_book_view),
+
+    path('genre/<int:pk>/', views.ShowGenreView.as_view()),
+    path('genre/createview/', views.CreateGenreView.as_view()),
+    path('genre/updateview/<int:pk>/', views.UpdateGenreView.as_view()),
+    path('genre/deleteview/<int:pk>/', views.DeleteGenreView.as_view()),
+    path('genre/', views.ShowGenresView.as_view()),
+
+    path('author/', views.ShowAuthorsView.as_view()),
+    path('author/<int:pk>/', views.ShowAuthorView.as_view()),
+    path('author/createview/', views.CreateAuthorView.as_view()),
+    path('author/updateview/<int:pk>/', views.UpdateAuthorView.as_view()),
+    path('author/deleteview/<int:pk>/', views.DeleteAuthorView.as_view()),
+
+    path('publisher/', views.ShowPublishersView.as_view()),
+    path('publisher/<int:pk>/', views.ShowPublisherView.as_view()),
+    path('publisher/createview/', views.CreatePublisherView.as_view()),
+    path('publisher/updateview/<int:pk>/', views.UpdatePublisherView.as_view()),
+    path('publisher/deleteview/<int:pk>/', views.DeletePublisherView.as_view()),
+
+    path('seria/', views.ShowSeriasView.as_view()),
+    path('seria/<int:pk>/', views.ShowSeriaView.as_view()),
+    path('seria/createview/', views.CreateSeriaView.as_view()),
+    path('seria/updateview/<int:pk>/', views.UpdateSeriaView.as_view()),
+    path('seria/deleteview/<int:pk>/', views.DeleteSeriaView.as_view()),
+    
+    path('book/<int:pk>/', views.ShowBookView.as_view()),
+    path('book/createview/', views.CreateBookView.as_view()),
+    path('book/updateview/<int:pk>/', views.UpdateBookView.as_view()),
+    path('book/deleteview/<int:pk>/', views.DeleteBookView.as_view()),
+    path('', views.ShowBooksView.as_view()),
+
 ]
