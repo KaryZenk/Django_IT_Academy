@@ -51,10 +51,10 @@ urlpatterns = [
     path('seria/updateview/<int:pk>/', views.UpdateSeriaView.as_view()),
     path('seria/deleteview/<int:pk>/', views.DeleteSeriaView.as_view()),
     
-    path('book/<int:pk>/', views.ShowBookView.as_view()),
-    path('book/createview/', views.CreateBookView.as_view()),
-    path('book/updateview/<int:pk>/', views.UpdateBookView.as_view()),
-    path('book/deleteview/<int:pk>/', views.DeleteBookView.as_view()),
+    path('book/<int:pk>/', views.ShowBookView.as_view(), name='book_view'),
+    path('book/createview/', views.CreateBookView.as_view(), name='create_book'),
+    path('book/updateview/<int:pk>/', views.UpdateBookView.as_view(), name='update_book'),
+    path('book/deleteview/<int:pk>/', views.DeleteBookView.as_view(), name='delete_book'),
     path('', views.ShowBooksView.as_view()),
 
 ]

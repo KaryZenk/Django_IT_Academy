@@ -27,8 +27,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['karyzenk.pythonanywhere.com', '127.0.0.1']
 
-
-# Application definition
+THIRD_PARTY_APPS = [
+    'crispy_forms',
+]
 
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -40,7 +41,7 @@ INSTALLED_APPS = [
     'hello_world',
     'book',
     'handbook'
-]
+] + THIRD_PARTY_APPS
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -68,6 +69,10 @@ TEMPLATES = [
             ],
         },
     },
+]
+
+STATICFILES_DIRS = [
+    BASE_DIR / "static",
 ]
 
 WSGI_APPLICATION = 'prj.wsgi.application'
@@ -121,3 +126,5 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
